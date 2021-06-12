@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using System.IO;
 public class Enemy
 {
 	private string name;
@@ -21,6 +21,18 @@ public class Enemy
 		this.mana = maxMana;
 		this.MinAttack = minAttack;
 		this.MaxAttack = maxAttack;
+	}
+
+	public BinaryWriter Save(BinaryWriter bw) 
+	{
+		bw.Write(name);
+		bw.Write(maxLife);
+		bw.Write(life);
+		bw.Write(maxMana);
+		bw.Write(mana);
+		bw.Write(MinAttack);
+		bw.Write(MaxAttack);
+		return bw;
 	}
 
 	public Player Attack(Player player)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 class Game
@@ -13,6 +14,7 @@ class Game
 		player = new Player("Pepe",100,20, Location.Inn);
 		inn = new Inn();
 		tower = new Tower(10);
+		Save();
 	}
 
 	public bool Play() 
@@ -32,4 +34,15 @@ class Game
 
 		return true;
 	}
+
+	public void Save() 
+	{
+		Stream save = File.Open("MySave.sav", FileMode.OpenOrCreate);
+		BinaryWriter bw = new BinaryWriter(save);
+		bw = player.Save(bw);
+		bw = tower.Save(bw);
+		bw.Close();
+		save.Close();
+	}
+
 }

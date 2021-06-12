@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 class Tower
@@ -23,6 +24,17 @@ class Tower
 		currentOption = Options.Enter;
 	}
 
+	public BinaryWriter Save(BinaryWriter bw) 
+	{
+		bw.Write(floors.Count);
+		for (int i = 0; i < floors.Count; i++)
+		{
+			bw = floors[i].Save(bw);
+		}
+		bw.Write(lastVisitedFloor);
+		bw.Write((int)currentOption);
+		return bw;
+	}
 
 	public Player StayInside(Player player)
 	{

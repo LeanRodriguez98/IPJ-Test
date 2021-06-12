@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 public class Player
 {
@@ -21,6 +22,17 @@ public class Player
 		location = spawnPoint;
 	}
 
+	public BinaryWriter Save(BinaryWriter bw) 
+	{
+		bw.Write(name);
+		bw.Write(maxLife);
+		bw.Write(life);
+		bw.Write(maxMana);
+		bw.Write(mana);
+		bw.Write((int)location);
+		return bw;
+	}
+ 
 	public void Heal()
 	{
 		life = maxLife;
