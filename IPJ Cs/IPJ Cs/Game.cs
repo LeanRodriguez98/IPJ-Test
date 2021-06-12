@@ -11,13 +11,32 @@ class Game
 
 	public Game()
 	{
-		player = new Player("Pepe",100,20, Location.Inn);
-		inn = new Inn();
-		tower = new Tower(10);
-		Save();
+		bool load = true;
+		if (load)
+		{
+			LoadGame();
+		}
+		else
+		{
+			StartNewGame();
+		}
+		//Save();
 	}
 
-	public bool Play() 
+	public void LoadGame()
+	{
+		Load();
+		inn = new Inn();
+	}
+
+	public void StartNewGame()
+	{
+		player = new Player("Pepe", 100, 20, Location.Inn);
+		inn = new Inn();
+		tower = new Tower(10);
+	}
+
+	public bool Play()
 	{
 		switch (player.GetLocation())
 		{
@@ -35,7 +54,7 @@ class Game
 		return true;
 	}
 
-	public void Save() 
+	public void Save()
 	{
 		Stream save = File.Open("MySave.sav", FileMode.OpenOrCreate);
 		BinaryWriter bw = new BinaryWriter(save);
@@ -43,6 +62,22 @@ class Game
 		bw = tower.Save(bw);
 		bw.Close();
 		save.Close();
+	}
+
+	public void Load()
+	{
+		if (File.Exists("Mysave.sav"))
+		{
+			Stream file = File.Open("MySave.sav", FileMode.Open);
+
+			BinaryReader br = new BinaryReader(file);
+			player = new Player();
+			br = player.Load(br);
+			tower = new Tower();
+			br = tower.Load(br);
+			br.Close();
+			file.Close();
+		}
 	}
 
 }

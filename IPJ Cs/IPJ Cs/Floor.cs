@@ -15,6 +15,10 @@ class Floor
 			enemies.Add(new Enemy("Beholder", 1000, 50, 20, 50));
 		}
 	}
+	public Floor() 
+	{
+
+	}
 
 	public BinaryWriter Save(BinaryWriter bw) 
 	{
@@ -25,6 +29,20 @@ class Floor
 		}
 		return bw;
 	}
+
+	public BinaryReader Load(BinaryReader br) 
+	{
+		int enemeiesCount = br.ReadInt32();
+		enemies = new List<Enemy>();
+		for (int i = 0; i < enemeiesCount; i++)
+		{
+			Enemy enemy = new Enemy();
+			br = enemy.Load(br);
+			enemies.Add(enemy);
+		}
+		return br;
+	}
+
 
 	public Player Fight(Player player)
 	{

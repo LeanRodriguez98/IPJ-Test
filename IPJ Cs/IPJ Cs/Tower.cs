@@ -24,6 +24,10 @@ class Tower
 		currentOption = Options.Enter;
 	}
 
+	public Tower() 
+	{
+	}
+
 	public BinaryWriter Save(BinaryWriter bw) 
 	{
 		bw.Write(floors.Count);
@@ -34,6 +38,21 @@ class Tower
 		bw.Write(lastVisitedFloor);
 		bw.Write((int)currentOption);
 		return bw;
+	}
+
+	public BinaryReader Load(BinaryReader br) 
+	{
+		int floorsCount = br.ReadInt32();
+		floors = new List<Floor>();
+		for (int i = 0; i < floorsCount; i++)
+		{
+			Floor floor = new Floor();
+			br = floor.Load(br);
+			floors.Add(floor);
+		}
+		lastVisitedFloor = br.ReadInt32();
+		currentOption = (Options)br.ReadInt32();
+		return br;
 	}
 
 	public Player StayInside(Player player)

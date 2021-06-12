@@ -12,6 +12,10 @@ public class Enemy
 
 	private int MinAttack;
 	private int MaxAttack;
+
+	public Enemy() 
+	{
+	}
 	public Enemy(string name, int maxLife, int maxMana, int minAttack, int maxAttack)
 	{
 		this.name = name;
@@ -33,6 +37,18 @@ public class Enemy
 		bw.Write(MinAttack);
 		bw.Write(MaxAttack);
 		return bw;
+	}
+
+	public BinaryReader Load(BinaryReader br) 
+	{
+		name = br.ReadString();
+		maxLife = br.ReadInt32();
+		life = br.ReadInt32();
+		maxMana = br.ReadInt32();
+		mana = br.ReadInt32();
+		MinAttack = br.ReadInt32();
+		MaxAttack = br.ReadInt32();
+		return br;
 	}
 
 	public Player Attack(Player player)

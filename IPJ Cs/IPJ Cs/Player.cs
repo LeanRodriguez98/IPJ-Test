@@ -12,6 +12,9 @@ public class Player
 
 	private Location location;
 
+	public Player() 
+	{
+	}
 	public Player(string name, int maxLife, int maxMana, Location spawnPoint)
 	{
 		this.name = name;
@@ -22,7 +25,7 @@ public class Player
 		location = spawnPoint;
 	}
 
-	public BinaryWriter Save(BinaryWriter bw) 
+	public BinaryWriter Save(BinaryWriter bw)
 	{
 		bw.Write(name);
 		bw.Write(maxLife);
@@ -32,7 +35,18 @@ public class Player
 		bw.Write((int)location);
 		return bw;
 	}
- 
+
+	public BinaryReader Load(BinaryReader br)
+	{
+		name = br.ReadString();
+		maxLife = br.ReadInt32();
+		life = br.ReadInt32();
+		maxMana = br.ReadInt32();
+		mana = br.ReadInt32();
+		location = (Location)br.ReadInt32();
+		return br;
+	}
+
 	public void Heal()
 	{
 		life = maxLife;
@@ -96,7 +110,7 @@ public class Player
 
 		Console.WriteLine("Attack!");
 		Console.WriteLine("Select an index from 0 to " + (enemies.Count - 1));
-		
+
 		int input = 0;
 		input = Convert.ToInt32(Console.ReadLine());
 
