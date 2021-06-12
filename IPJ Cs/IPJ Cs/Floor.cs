@@ -12,7 +12,7 @@ class Floor
 		int enemiesInFloor = random.Next(1, maxEnemeiesInFloor);
 		for (int i = 0; i < enemiesInFloor; i++)
 		{
-			enemies.Add(new Enemy("BossGoblin", 50, 5, 2, 5));
+			enemies.Add(new Enemy("Beholder", 1000, 50, 20, 50));
 		}
 	}
 
