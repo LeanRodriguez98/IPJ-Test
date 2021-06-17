@@ -11,7 +11,7 @@ class Game
 
 	public Game()
 	{
-		bool load = true;
+		bool load = false;
 		if (load)
 		{
 			LoadGame();
@@ -38,6 +38,9 @@ class Game
 
 	public bool Play()
 	{
+
+		
+
 		switch (player.GetLocation())
 		{
 			case Location.Inn:
@@ -66,7 +69,8 @@ class Game
 
 	public void Load()
 	{
-		if (File.Exists("Mysave.sav"))
+
+		try
 		{
 			Stream file = File.Open("MySave.sav", FileMode.Open);
 
@@ -78,6 +82,12 @@ class Game
 			br.Close();
 			file.Close();
 		}
+		catch (System.IO.FileNotFoundException)
+		{
+			StartNewGame();
+		}
+
+
 	}
 
 }

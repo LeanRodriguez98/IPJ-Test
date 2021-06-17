@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Threading;
+
 public class Enemy
 {
 	private string name;
@@ -12,6 +14,7 @@ public class Enemy
 
 	private int MinAttack;
 	private int MaxAttack;
+
 
 	public Enemy() 
 	{
@@ -82,5 +85,6 @@ public class Enemy
 	{
 		return life <= 0;
 	}
+
 
 }

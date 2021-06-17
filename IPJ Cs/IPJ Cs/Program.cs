@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-
 class Program
 {
 	static void Main(string[] args)
 	{
 		bool gameOpen = true;
 
-		Game game = new Game();
-		do
+		try
 		{
-			gameOpen = game.Play();
-		} while (gameOpen);
+			Game game = new Game();
+			do
+			{
+				gameOpen = game.Play();
+			} while (gameOpen);
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine("ERROR INESPERADO!" + e.Message);
+		}
+
 	}
 }
