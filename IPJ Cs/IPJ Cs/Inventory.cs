@@ -13,8 +13,6 @@ class Inventory
 
 	public void AddItem(Item item, int amount)
 	{
-
-
 		bool alreadyContained = false;
 		for (int i = 0; i < inventory.Count; i++)
 		{
@@ -39,6 +37,10 @@ class Inventory
 			if (inventory.Count < size)
 			{
 				inventory.Add(new InventorySlot(item, amount));
+			}
+			else
+			{
+				//muchos items, tira alguno
 			}
 		}
 	}

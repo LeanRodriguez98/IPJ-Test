@@ -1,93 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 
 class Game
 {
-	private Player player;
-	private Inn inn;
-	private Tower tower;
+	enum State {Gameplay, Pause };
 
-	public Game()
+	private GamePlay gameplay;
+	private PauseMenu pauseMenu;
+	private static State state;
+
+	public Game() 
 	{
-		bool load = false;
-		if (load)
-		{
-			LoadGame();
-		}
-		else
-		{
-			StartNewGame();
-		}
-		//Save();
+		gameplay = new GamePlay();
+		pauseMenu = new PauseMenu();
+		state = State.Gameplay;
 	}
 
-	public void LoadGame()
+	public void Update()
 	{
-		Load();
-		inn = new Inn();
-	}
-
-	public void StartNewGame()
-	{
-		player = new Player("Pepe", 100, 20, Location.Inn);
-		inn = new Inn();
-		tower = new Tower(10);
-	}
-
-	public bool Play()
-	{
-
-		
-
-		switch (player.GetLocation())
+		switch (state)
 		{
-			case Location.Inn:
-				player = inn.Stay(player);
+			case State.Gameplay:
+				gameplay.Play();
 				break;
-			case Location.Tower:
-				player = tower.StayInside(player);
+			case State.Pause:
+				pauseMenu.Pause();
 				break;
 			default:
-				Console.WriteLine("ERROR!");
 				break;
 		}
-
-		return true;
 	}
 
-	public void Save()
+	public static void GoToPause()
 	{
-		Stream save = File.Open("MySave.sav", FileMode.OpenOrCreate);
-		BinaryWriter bw = new BinaryWriter(save);
-		bw = player.Save(bw);
-		bw = tower.Save(bw);
-		bw.Close();
-		save.Close();
+		state = State.Pause;
 	}
 
-	public void Load()
+	public static void GoToGameplay() 
 	{
-
-		try
-		{
-			Stream file = File.Open("MySave.sav", FileMode.Open);
-
-			BinaryReader br = new BinaryReader(file);
-			player = new Player();
-			br = player.Load(br);
-			tower = new Tower();
-			br = tower.Load(br);
-			br.Close();
-			file.Close();
-		}
-		catch (System.IO.FileNotFoundException)
-		{
-			StartNewGame();
-		}
-
-
+		state = State.Gameplay;
 	}
-
 }

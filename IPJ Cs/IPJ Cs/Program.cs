@@ -9,7 +9,7 @@ class Program
 
 		try
 		{
-			Game game = new Game();
+			GamePlay game = new GamePlay();
 			do
 			{
 				gameOpen = game.Play();
