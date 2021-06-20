@@ -1,16 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 class Inventory
 {
 	private List<InventorySlot> inventory;
 	private int size;
+	
 	public Inventory(int size)
 	{
 		this.size = size;
 	}
-
+	
+	public List<InventorySlot> GetInventories()
+	{
+		return inventory;
+	}
+	
 	public void AddItem(Item item, int amount)
 	{
 		bool alreadyContained = false;
@@ -62,12 +66,61 @@ public class Item
 {
 	public string name;
 	public int price;
-	public string description;
+	protected string description;
 
 	public Item(string name, int price, string description)
 	{
 		this.name = name;
 		this.price = price;
 		this.description = description;
+	}
+}
+
+abstract class Consumables : Item
+{
+	int _quantity;
+	public Consumables(string name, int price, string description, int quantity): base(name,price,description)
+	{
+		_quantity = quantity;
+	}
+}
+
+class Potion : Consumables
+{
+	public Potion(string name, int price, string description, int quantity) : base(name, price, description, quantity)
+	{
+	}
+}
+abstract class Food : Consumables
+{
+	public Food(string name, int price, string description, int quantity) : base(name, price, description, quantity)
+	{
+	}
+}
+sealed class Arrow : Consumables
+{
+	public Arrow(string name, int price, string description, int quantity) : base(name, price, description, quantity)
+	{
+	}
+}
+abstract class Equipment : Item
+{
+	public Equipment(string name, int price, string description) : base( name, price, description)
+	{
+
+	}
+}
+abstract class Armadura : Equipment
+{
+	public Armadura(string name, int price, string description) : base(name, price, description)
+	{
+
+	}
+}
+sealed class armaduraCuero : Armadura
+{
+	public armaduraCuero(string name, int price, string description) : base(name, price, description)
+	{
+
 	}
 }

@@ -9,11 +9,14 @@ public class Player
 	private int life;
 	private int maxMana;
 	private int mana;
-
+	public int coins;
+	Inventory playerInventory;
+	private int inventorySize = 20;
 	private Location location;
 
 	public Player() 
 	{
+		playerInventory = new Inventory(inventorySize);
 	}
 	public Player(string name, int maxLife, int maxMana, Location spawnPoint)
 	{
