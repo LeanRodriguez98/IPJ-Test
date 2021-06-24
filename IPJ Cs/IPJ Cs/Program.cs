@@ -7,18 +7,19 @@ class Program
 	{
 		bool gameOpen = true;
 
-		try
-		{
-			GamePlay game = new GamePlay();
+		//try
+		//{
+			Game game = Game.GetInstance();
+
 			do
 			{
-				gameOpen = game.Play();
+				gameOpen = game.Update();
 			} while (gameOpen);
-		}
-		catch (Exception e)
-		{
-			Console.WriteLine("ERROR INESPERADO!" + e.Message);
-		}
+		//}
+		//catch (Exception e)
+		//{
+		//	Console.WriteLine("ERROR INESPERADO!" + e.Message);
+		//}
 
 	}
 }

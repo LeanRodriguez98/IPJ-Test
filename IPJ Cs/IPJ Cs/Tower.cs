@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-class Tower
+class Tower : ISaveLoad
 {
 	enum Options { Enter, Fight, Leave, GoToNextFloor, Error };
 	enum OnEnterOption { Leave, Fight, Error };
@@ -158,4 +158,5 @@ class Tower
 	{
 
 	}
+
 }

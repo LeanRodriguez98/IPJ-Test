@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-class Floor
+class Floor : ISaveLoad
 {
 	public List<Enemy> enemies;
 	public Floor(int maxEnemeiesInFloor)
@@ -17,7 +17,6 @@ class Floor
 	}
 	public Floor() 
 	{
-
 	}
 
 	public BinaryWriter Save(BinaryWriter bw) 

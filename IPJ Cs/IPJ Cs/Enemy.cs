@@ -4,7 +4,7 @@ using System.Text;
 using System.IO;
 using System.Threading;
 
-public class Enemy
+public class Enemy : ISaveLoad
 {
 	private string name;
 	private int maxLife;

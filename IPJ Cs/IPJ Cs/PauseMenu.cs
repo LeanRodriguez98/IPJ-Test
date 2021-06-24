@@ -11,7 +11,7 @@ class PauseMenu
 
 		if (input == 'p')
 		{
-			Game.GoToGameplay();
+			Game.GetInstance().GoToGameplay();
 		}
 	}
 }

@@ -4,20 +4,31 @@ using System.Text;
 
 class Game
 {
+	private static Game instance;
+
+	public static Game GetInstance() 
+	{
+		if (instance == null)
+		{
+			instance = new Game();
+		}
+		return instance;
+	}
+
 	enum State {Gameplay, Pause };
 
 	private GamePlay gameplay;
 	private PauseMenu pauseMenu;
 	private static State state;
 
-	public Game() 
+	private Game() 
 	{
 		gameplay = new GamePlay();
 		pauseMenu = new PauseMenu();
 		state = State.Gameplay;
 	}
 
-	public void Update()
+	public bool Update()
 	{
 		switch (state)
 		{
@@ -30,15 +41,17 @@ class Game
 			default:
 				break;
 		}
+		return true;
 	}
 
-	public static void GoToPause()
+	public void GoToPause()
 	{
 		state = State.Pause;
 	}
 
-	public static void GoToGameplay() 
+	public void GoToGameplay()
 	{
 		state = State.Gameplay;
 	}
+
 }

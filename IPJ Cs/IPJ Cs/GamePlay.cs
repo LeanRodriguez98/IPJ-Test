@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-class GamePlay
+class GamePlay 
 {
 	private Player player;
 	private Inn inn;
@@ -11,7 +11,7 @@ class GamePlay
 
 	public GamePlay()
 	{
-		bool load = false;
+		bool load = true;
 		if (load)
 		{
 			LoadGame();
@@ -66,7 +66,6 @@ class GamePlay
 
 	public void Load()
 	{
-
 		try
 		{
 			Stream file = File.Open("MySave.sav", FileMode.Open);
@@ -79,12 +78,27 @@ class GamePlay
 			br.Close();
 			file.Close();
 		}
-		catch (System.IO.FileNotFoundException)
+		catch (System.IO.FileNotFoundException E)
 		{
-			StartNewGame();
-		}
+			Console.WriteLine(E.Message);
+			Console.WriteLine(E.StackTrace);
+			Console.WriteLine(E.Source);
 
+			//StartNewGame();
+		}
+		//catch (MissingCoconutException E) 
+		//{
+		//	Console.WriteLine(E.Message);
+		//}
 
 	}
 
+}
+
+
+public class MissingCoconutException : Exception 
+{
+	public MissingCoconutException(string message) : base(message) 
+	{
+	}
 }

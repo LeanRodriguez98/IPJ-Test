@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-public class Player
+public class Player : ISaveLoad
 {
 	private string name;
 	private int maxLife;
@@ -17,6 +17,7 @@ public class Player
 	public Player() 
 	{
 		playerInventory = new Inventory(inventorySize);
+
 	}
 	public Player(string name, int maxLife, int maxMana, Location spawnPoint)
 	{
@@ -47,6 +48,10 @@ public class Player
 		maxMana = br.ReadInt32();
 		mana = br.ReadInt32();
 		location = (Location)br.ReadInt32();
+
+		//throw new MissingCoconutException("Alguiien le borro el coco al TF2!"); 
+
+
 		return br;
 	}
 
