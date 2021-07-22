@@ -1,5 +1,7 @@
-﻿using SFML.System;
+﻿using SFML.Audio;
+using SFML.System;
 using System;
+using System.IO;
 
 namespace SFML_Tutoriual
 {
@@ -8,17 +10,20 @@ namespace SFML_Tutoriual
 		static void Main(string[] args)
 		{
 
-			Game game = new Game();
 
+
+			Game game = new Game();
+			MusicManager.GetInstance().Play();
 			FrameRate.InitFrameRateSystem();
 
 			while (game.UpdateWindow())
 			{
 				game.UpdateGame();
+				CollisionManager.GetInstance().CheckCollisions();
+				game.CheckGarbash();
 				game.DrawGame();
 
 				FrameRate.OnFrameEnd();
-				Console.WriteLine(FrameRate.GetCurrentFPS());
 			}
 
 		}

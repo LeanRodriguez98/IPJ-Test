@@ -7,7 +7,7 @@ using SFML.Window;
 
 namespace SFML_Tutoriual
 {
-	class Game
+	class Game 
 	{
 		private static Vector2f windowSize;
 		private RenderWindow window;
@@ -47,6 +47,11 @@ namespace SFML_Tutoriual
 		{
 			gamePlay.Draw(window);
 			window.Display();
+		}
+
+		public void CheckGarbash() 
+		{
+			gamePlay.CheckGarbash();
 		}
 
 		public static Vector2f GetWindowSize() 

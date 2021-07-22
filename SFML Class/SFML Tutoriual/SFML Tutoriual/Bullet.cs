@@ -3,19 +3,49 @@ using SFML.System;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SFML.Audio;
+using System.IO;
 
 namespace SFML_Tutoriual
 {
-	class Bullet : GameObjectBase
-	{
-		public Bullet(Vector2f startPosition) : base("Sprites/pig.png", startPosition)
-		{
-		}
+    class Bullet : GameObjectBase, IColisionable
+    {
 
-		public override void Update()
-		{
-			currentPosition.X += 50 * FrameRate.GetDeltaTime();
-			base.Update();
-		}
-	}
+        public Bullet(Vector2f startPosition) : base("Sprites" + Path.DirectorySeparatorChar + "pig.png", startPosition)
+        {
+            CollisionManager.GetInstance().AddToCollisionManager(this);
+            
+        }
+
+        public FloatRect GetBounds()
+        {
+            return sprite.GetGlobalBounds();
+        }
+
+
+        public void OnCollision(IColisionable other)
+        {
+            if (other is Rock)
+            {
+                Dispose();
+            }
+        }
+
+        public override void Update()
+        {
+            currentPosition.X += 50 * FrameRate.GetDeltaTime();
+            base.Update();
+        }
+
+        public override void Dispose()
+        {
+            CollisionManager.GetInstance().RemoveFromCollisionManager(this);
+            base.Dispose();
+        }
+
+        public override void CheckGarbash()
+        {
+        }
+
+    }
 }

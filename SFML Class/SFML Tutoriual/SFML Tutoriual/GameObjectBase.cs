@@ -11,13 +11,14 @@ namespace SFML_Tutoriual
 		protected Texture texture;
 		protected Sprite sprite;
 		protected Vector2f currentPosition;
-
+		public bool toDelete;
 		public GameObjectBase(string texturePath, Vector2f startPosition) 
 		{
 			texture = new Texture(texturePath);
 			sprite = new Sprite(texture);
 			currentPosition = startPosition;
 			sprite.Position = currentPosition;
+			toDelete = false;
 		}
 
 		public virtual void Update() 
@@ -30,11 +31,14 @@ namespace SFML_Tutoriual
 			window.Draw(sprite);
 		}
 		
-		public void Dispose() 
+		public virtual void Dispose() 
 		{
 			sprite.Dispose();
 			texture.Dispose();
+			toDelete = true;
 		}
+
+		public abstract void CheckGarbash();
 
 		public Vector2f GetPosition()
 		{
