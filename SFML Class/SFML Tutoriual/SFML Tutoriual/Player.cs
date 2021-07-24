@@ -11,12 +11,16 @@ namespace SFML_Tutoriual
     {
         private float speed;
         private List<Bullet> bullets;
+        private float fireDelay;
+        private float fireRate;
         public Player() : base("Sprites" + Path.DirectorySeparatorChar + "pig.png", new Vector2f(0.0f, 0.0f))
         {
             sprite.Scale = new Vector2f(4.0f, 4.0f);
             speed = 250.0f;
             bullets = new List<Bullet>();
             CollisionManager.GetInstance().AddToCollisionManager(this);
+            fireRate = 2.0f;
+            fireDelay = 2.0f;
         }
 
         public override void Update()
@@ -54,17 +58,20 @@ namespace SFML_Tutoriual
             {
                 currentPosition.Y -= speed * FrameRate.GetDeltaTime();
             }
+
         }
 
         private void Shoot()
         {
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Space))
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Space) && fireDelay >= fireRate )
             {
                 Vector2f spawnPosition = currentPosition;
                 spawnPosition.X += (texture.Size.X * sprite.Scale.X) / 2.0f;
                 spawnPosition.Y += (texture.Size.Y * sprite.Scale.Y) / 2.0f;
                 bullets.Add(new Bullet(spawnPosition));
+                fireDelay = 0.0f;
             }
+            fireDelay += FrameRate.GetDeltaTime();
         }
 
         private void DeleteOldBullets()
@@ -81,7 +88,7 @@ namespace SFML_Tutoriual
 
             for (int i = indexToDelete.Count - 1; i >= 0; i--)
             {
-                bullets[i].Dispose();
+                bullets[i].DisposeNow();
                 bullets.RemoveAt(i);
             }
         }
@@ -90,10 +97,10 @@ namespace SFML_Tutoriual
         {
             return sprite.GetGlobalBounds();
         }
-        public override void Dispose()
+        public override void DisposeNow()
         {
             CollisionManager.GetInstance().RemoveFromCollisionManager(this);
-            base.Dispose();
+            base.DisposeNow();
         }
 
         public override void CheckGarbash()
@@ -113,15 +120,28 @@ namespace SFML_Tutoriual
             }
             if (toDelete == true)
             {
-                Dispose();
+                DisposeNow();
+            }
+            base.CheckGarbash();
+        }
+
+        public void OnCollisionStay(IColisionable other)
+        {
+        }
+
+        public void OnCollisionEnter(IColisionable other)
+        {
+            if (other is Rock)
+            {
+                Console.WriteLine("Player enter");
             }
         }
 
-        public void OnCollision(IColisionable other)
+        public void OnCollisionExit(IColisionable other)
         {
-            if ( other is Rock)
+            if (other is Rock)
             {
-               Vector2f direction = (other as Rock).GetPosition() - GetPosition();
+                Console.WriteLine("Player exit");
             }
         }
     }

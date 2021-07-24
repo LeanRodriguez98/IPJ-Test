@@ -12,6 +12,7 @@ namespace SFML_Tutoriual
 		private static Vector2f windowSize;
 		private RenderWindow window;
 		private GamePlay gamePlay;
+		private Camera camera;
 
 		public Game()
 		{
@@ -23,7 +24,9 @@ namespace SFML_Tutoriual
 			window.Closed += CloseWindow;
 			window.SetFramerateLimit(FrameRate.FRAMERATE_LIMIT);
 
+			camera = new Camera(window);
 			gamePlay = new GamePlay();
+			MouseUtils.SetWindow(window);
 		}
 
 		private void CloseWindow(object sender, EventArgs e)
@@ -41,6 +44,7 @@ namespace SFML_Tutoriual
 		public void UpdateGame()
 		{
 			gamePlay.Update();
+			camera.UpdateCamera();
 			windowSize = window.GetView().Size;
 		}
 		public void DrawGame()

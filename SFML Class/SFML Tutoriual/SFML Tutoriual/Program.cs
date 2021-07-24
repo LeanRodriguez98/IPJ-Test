@@ -9,9 +9,6 @@ namespace SFML_Tutoriual
 	{
 		static void Main(string[] args)
 		{
-
-
-
 			Game game = new Game();
 			MusicManager.GetInstance().Play();
 			FrameRate.InitFrameRateSystem();

@@ -35,7 +35,7 @@ namespace SFML_Tutoriual
             m2.Loop = true;
             music.Add(m);
             music.Add(m2);
-            SetVolume(10);
+            SetVolume(0);
         }
 
         public void SetVolume(int newVolume)

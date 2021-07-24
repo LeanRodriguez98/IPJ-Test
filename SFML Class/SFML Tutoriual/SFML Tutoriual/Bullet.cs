@@ -10,11 +10,13 @@ namespace SFML_Tutoriual
 {
     class Bullet : GameObjectBase, IColisionable
     {
+        private Sound sound;
 
         public Bullet(Vector2f startPosition) : base("Sprites" + Path.DirectorySeparatorChar + "pig.png", startPosition)
         {
             CollisionManager.GetInstance().AddToCollisionManager(this);
-            
+            SoundBuffer soundBuffer = new SoundBuffer("Audio" + Path.DirectorySeparatorChar + "Sounds" + Path.DirectorySeparatorChar + "Sound1.ogg");
+            sound = new Sound(soundBuffer);
         }
 
         public FloatRect GetBounds()
@@ -23,11 +25,12 @@ namespace SFML_Tutoriual
         }
 
 
-        public void OnCollision(IColisionable other)
+        public void OnCollisionStay(IColisionable other)
         {
             if (other is Rock)
             {
-                Dispose();
+                sound.Play();
+                LateDispose();
             }
         }
 
@@ -37,15 +40,18 @@ namespace SFML_Tutoriual
             base.Update();
         }
 
-        public override void Dispose()
+        public override void DisposeNow()
         {
             CollisionManager.GetInstance().RemoveFromCollisionManager(this);
-            base.Dispose();
+            base.DisposeNow();
         }
 
-        public override void CheckGarbash()
+        public void OnCollisionEnter(IColisionable other)
         {
         }
 
+        public void OnCollisionExit(IColisionable other)
+        {
+        }
     }
 }

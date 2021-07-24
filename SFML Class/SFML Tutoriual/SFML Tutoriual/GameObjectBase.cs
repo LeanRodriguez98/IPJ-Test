@@ -11,6 +11,7 @@ namespace SFML_Tutoriual
 		protected Texture texture;
 		protected Sprite sprite;
 		protected Vector2f currentPosition;
+		private bool lateDispose;
 		public bool toDelete;
 		public GameObjectBase(string texturePath, Vector2f startPosition) 
 		{
@@ -19,6 +20,7 @@ namespace SFML_Tutoriual
 			currentPosition = startPosition;
 			sprite.Position = currentPosition;
 			toDelete = false;
+			lateDispose = false;
 		}
 
 		public virtual void Update() 
@@ -31,14 +33,25 @@ namespace SFML_Tutoriual
 			window.Draw(sprite);
 		}
 		
-		public virtual void Dispose() 
+		public virtual void DisposeNow() 
 		{
 			sprite.Dispose();
 			texture.Dispose();
 			toDelete = true;
 		}
 
-		public abstract void CheckGarbash();
+		public void LateDispose() 
+		{
+			lateDispose = true;
+		}
+
+		public virtual void CheckGarbash() 
+		{
+            if (lateDispose)
+            {
+				DisposeNow();
+            }
+		}
 
 		public Vector2f GetPosition()
 		{

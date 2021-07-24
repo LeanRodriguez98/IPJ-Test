@@ -22,12 +22,16 @@ namespace SFML_Tutoriual
             return new FloatRect(position,size);
         }
 
-        public void OnCollision(IColisionable other)
+        public void OnCollisionEnter(IColisionable other)
         {
-            if (other is Player)
-            {
-                MusicManager.GetInstance().Stop();
-            }
+        }
+
+        public void OnCollisionExit(IColisionable other)
+        {
+        }
+
+        public void OnCollisionStay(IColisionable other)
+        {
         }
     }
 }
