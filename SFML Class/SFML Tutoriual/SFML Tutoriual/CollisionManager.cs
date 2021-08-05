@@ -17,13 +17,12 @@ namespace SFML_Tutoriual
         }
 
         private List<IColisionable> colisionables;
-
         private List<KeyValuePair<IColisionable, IColisionable>> collisionRegister;
 
         private CollisionManager()
         {
             colisionables = new List<IColisionable>();
-            collisionRegister = new List<KeyValuePair<IColisionable, IColisionable>>();
+            collisionRegister = new List<KeyValuePair<IColisionable, IColisionable>>(); 
         }
 
         public void AddToCollisionManager(IColisionable colisionable)
@@ -51,19 +50,20 @@ namespace SFML_Tutoriual
 
                         if (colisionables[i].GetBounds().Intersects(colisionables[j].GetBounds()))
                         {
+                            colisionables[i].OnCollision(colisionables[j]);
+
                             if (!collisionRegister.Contains(register))
                             {
-                                collisionRegister.Add(register);
                                 colisionables[i].OnCollisionEnter(colisionables[j]);
+                                collisionRegister.Add(register);
                             }
-                            colisionables[i].OnCollisionStay(colisionables[j]);
                         }
                         else
                         {
-                            if (collisionRegister.Contains(register))
+                            if (collisionRegister.Contains(register)) 
                             {
-                                collisionRegister.Remove(register);
                                 colisionables[i].OnCollisionExit(colisionables[j]);
+                                collisionRegister.Remove(register);
                             }
                         }
                     }

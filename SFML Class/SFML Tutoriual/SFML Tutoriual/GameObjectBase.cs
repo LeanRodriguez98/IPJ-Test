@@ -20,7 +20,6 @@ namespace SFML_Tutoriual
 			currentPosition = startPosition;
 			sprite.Position = currentPosition;
 			toDelete = false;
-			lateDispose = false;
 		}
 
 		public virtual void Update() 

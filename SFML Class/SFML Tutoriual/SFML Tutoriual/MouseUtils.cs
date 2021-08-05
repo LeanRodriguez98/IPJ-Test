@@ -11,17 +11,17 @@ namespace SFML_Tutoriual
     {
         private static RenderWindow window;
         private static Vector2f startCenter;
-        public static void SetWindow(RenderWindow gameWindow) 
+        public static void SetWindow(RenderWindow currentWindow)
         {
-            window = gameWindow;
+            window = currentWindow;
             startCenter = window.GetView().Center;
         }
 
         public static bool MouseOver(FloatRect perimeter) 
         {
             Vector2i relativeMousePosition = Mouse.GetPosition(window);
-            Vector2f cameraOffset = window.GetView().Center - startCenter;
-            relativeMousePosition += (Vector2i)cameraOffset;
+            Vector2f cammeraOffset = window.GetView().Center - startCenter;
+            relativeMousePosition += (Vector2i)cammeraOffset;
             return perimeter.Contains(relativeMousePosition.X, relativeMousePosition.Y);
         }
 
@@ -29,5 +29,6 @@ namespace SFML_Tutoriual
         {
             return MouseOver(perimeter) && Mouse.IsButtonPressed(button);
         }
+
     }
 }

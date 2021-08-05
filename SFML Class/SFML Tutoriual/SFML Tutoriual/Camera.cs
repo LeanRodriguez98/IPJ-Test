@@ -7,44 +7,41 @@ using System.Text;
 
 namespace SFML_Tutoriual
 {
-    public class Camera
+    class Camera
     {
-        private RenderWindow window;
         private View view;
+        private RenderWindow renderWindow;
         private Vector2f currentPosition;
-
-
-        public Camera(RenderWindow window) 
+        public Camera(RenderWindow gameWindow)
         {
-            this.window = window;
-            view = window.GetView();
+            renderWindow = gameWindow;
+            view = renderWindow.GetView();
             currentPosition = view.Center;
         }
 
-
-        public void UpdateCamera() 
+        public void Update()
         {
             if (Keyboard.IsKeyPressed(Keyboard.Key.Left))
             {
-                currentPosition.X -= 100 * FrameRate.GetDeltaTime();
+                currentPosition.X -= 100.0f * FrameRate.GetDeltaTime();
             }
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Right))
             {
-                currentPosition.X += 100 * FrameRate.GetDeltaTime();
+                currentPosition.X += 100.0f * FrameRate.GetDeltaTime();
             }
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Up))
             {
-                currentPosition.Y -= 100 * FrameRate.GetDeltaTime();
+                currentPosition.Y -= 100.0f * FrameRate.GetDeltaTime();
             }
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Down))
             {
-                currentPosition.Y += 100 * FrameRate.GetDeltaTime();
+                currentPosition.Y += 100.0f * FrameRate.GetDeltaTime();
             }
             view.Center = currentPosition;
-            window.SetView(view);
+            renderWindow.SetView(view);
         }
     }
 }

@@ -31,10 +31,7 @@ namespace SFML_Tutoriual
             currentSong = 0;
             Music m = new Music(defaultMusic);
             m.Loop = true;
-            Music m2 = new Music(battleMusic);
-            m2.Loop = true;
             music.Add(m);
-            music.Add(m2);
             SetVolume(0);
         }
 

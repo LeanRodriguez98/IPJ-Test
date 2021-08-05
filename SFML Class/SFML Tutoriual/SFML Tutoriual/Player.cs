@@ -11,16 +11,13 @@ namespace SFML_Tutoriual
     {
         private float speed;
         private List<Bullet> bullets;
-        private float fireDelay;
-        private float fireRate;
+        bool a = true;
         public Player() : base("Sprites" + Path.DirectorySeparatorChar + "pig.png", new Vector2f(0.0f, 0.0f))
         {
             sprite.Scale = new Vector2f(4.0f, 4.0f);
             speed = 250.0f;
             bullets = new List<Bullet>();
             CollisionManager.GetInstance().AddToCollisionManager(this);
-            fireRate = 2.0f;
-            fireDelay = 2.0f;
         }
 
         public override void Update()
@@ -42,36 +39,77 @@ namespace SFML_Tutoriual
 
         private void Movement()
         {
-            if (Keyboard.IsKeyPressed(Keyboard.Key.D))
+            if (Joystick.IsConnected(0))
             {
-                currentPosition.X += speed * FrameRate.GetDeltaTime();
-            }
-            if (Keyboard.IsKeyPressed(Keyboard.Key.A))
-            {
-                currentPosition.X -= speed * FrameRate.GetDeltaTime();
-            }
-            if (Keyboard.IsKeyPressed(Keyboard.Key.S))
-            {
-                currentPosition.Y += speed * FrameRate.GetDeltaTime();
-            }
-            if (Keyboard.IsKeyPressed(Keyboard.Key.W))
-            {
-                currentPosition.Y -= speed * FrameRate.GetDeltaTime();
-            }
+                if (JoystickUtils.GetAxis(0, Joystick.Axis.U) != 0)
+                {
+                    currentPosition.X += JoystickUtils.GetAxis(0, Joystick.Axis.U) * speed * FrameRate.GetDeltaTime();
+                }
+                if (JoystickUtils.GetAxis(0, Joystick.Axis.V) != 0)
+                {
+                    currentPosition.Y += JoystickUtils.GetAxis(0, Joystick.Axis.V) * speed * FrameRate.GetDeltaTime();
+                }
 
+                if (Joystick.IsButtonPressed(0,JoystickUtils.GetButton(JoystickType.XBOX360,GameButtons.MainButtonDown)))
+                {
+                    FrameRate.SetTimeScale(0.5f);
+                }
+
+                if (Joystick.IsButtonPressed(0, JoystickUtils.GetButton(JoystickType.XBOX360, GameButtons.MainButtonRight)))
+                {
+                    FrameRate.SetTimeScale(1.0f);
+                }
+
+
+
+            }
+            else
+            {
+                if (Keyboard.IsKeyPressed(Keyboard.Key.D))
+                {
+                    currentPosition.X += speed * FrameRate.GetDeltaTime();
+                }
+                if (Keyboard.IsKeyPressed(Keyboard.Key.A))
+                {
+                    currentPosition.X -= speed * FrameRate.GetDeltaTime();
+                }
+                if (Keyboard.IsKeyPressed(Keyboard.Key.S))
+                {
+                    currentPosition.Y += speed * FrameRate.GetDeltaTime();
+                }
+                if (Keyboard.IsKeyPressed(Keyboard.Key.W))
+                {
+                    currentPosition.Y -= speed * FrameRate.GetDeltaTime();
+                }
+            }
+            //Console.WriteLine(Joystick.GetAxisPosition(0, Joystick.Axis.PovX));  Cruzeta
+            //Console.WriteLine(Joystick.GetAxisPosition(0, Joystick.Axis.PovY));
+
+            //Console.WriteLine(Joystick.GetAxisPosition(0, Joystick.Axis.U));  Stick derecho
+            //Console.WriteLine(Joystick.GetAxisPosition(0, Joystick.Axis.V));
+
+            //Console.WriteLine(Joystick.GetAxisPosition(0, Joystick.Axis.X));   Stick izquierdo
+            //Console.WriteLine(Joystick.GetAxisPosition(0, Joystick.Axis.Y));
+
+            //Console.WriteLine(Joystick.GetAxisPosition(0, Joystick.Axis.R));   triggers
+            //Console.WriteLine(Joystick.GetAxisPosition(0, Joystick.Axis.Z));
+
+            if (Keyboard.IsKeyPressed(Keyboard.Key.J))
+            {
+                LateDispose();
+            }
         }
 
         private void Shoot()
         {
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Space) && fireDelay >= fireRate )
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Space) && a)
             {
                 Vector2f spawnPosition = currentPosition;
                 spawnPosition.X += (texture.Size.X * sprite.Scale.X) / 2.0f;
                 spawnPosition.Y += (texture.Size.Y * sprite.Scale.Y) / 2.0f;
                 bullets.Add(new Bullet(spawnPosition));
-                fireDelay = 0.0f;
+                a = false;
             }
-            fireDelay += FrameRate.GetDeltaTime();
         }
 
         private void DeleteOldBullets()
@@ -80,17 +118,8 @@ namespace SFML_Tutoriual
             for (int i = 0; i < bullets.Count; i++)
             {
                 bullets[i].Update();
-                if (bullets[i].GetPosition().X > Game.GetWindowSize().X)
-                {
-                    indexToDelete.Add(i);
-                }
             }
 
-            for (int i = indexToDelete.Count - 1; i >= 0; i--)
-            {
-                bullets[i].DisposeNow();
-                bullets.RemoveAt(i);
-            }
         }
 
         public FloatRect GetBounds()
@@ -125,8 +154,9 @@ namespace SFML_Tutoriual
             base.CheckGarbash();
         }
 
-        public void OnCollisionStay(IColisionable other)
+        public void OnCollision(IColisionable other)
         {
+
         }
 
         public void OnCollisionEnter(IColisionable other)
